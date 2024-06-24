@@ -1,9 +1,20 @@
 import { Routes } from '@angular/router';
+import { FlightDepartureComponent } from './feature-departure';
 
 export const BOARDING_ROUTES: Routes = [
   {
     path: '',
-    children: []
+    children: [
+      {
+        path: '',
+        redirectTo: 'departure',
+        pathMatch: 'full'
+      },
+      {
+        path: 'departure',
+        component: FlightDepartureComponent
+      }
+    ]
   }
 ];
 
