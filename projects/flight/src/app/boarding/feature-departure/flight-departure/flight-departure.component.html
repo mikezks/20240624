@@ -4,9 +4,34 @@
   </div>
 
   <div class="card-body">
-    @if ({ timer: timer$ | async }; as state) {
-      <p>Timer 1: {{ state.timer }}</p>
-      <p>Timer 2: {{ state.timer }}</p>
+    <div class="form-group">
+      <label for="id">City:</label>
+      <input id="id" [formControl]="control" class="form-control" />
+    </div>
+
+    @if (loading) {
+    <p>Loading ...</p>
     }
   </div>
 </div>
+
+@if (flights$ | async; as flights) {
+  <div class="card">
+    <div class="card-body">
+      <table class="table table-condensed">
+        @for (f of flights; track f.id) {
+          <tr>
+            <td>
+              <span class="badge badge-pill badge-info">
+                {{ f.id }}
+              </span>
+            </td>
+            <td>{{ f.from }}</td>
+            <td>{{ f.to }}</td>
+            <td>{{ f.date | date : "dd.MM.yyyy HH:mm" }}</td>
+          </tr>
+        }
+      </table>
+    </div>
+</div>
+}
