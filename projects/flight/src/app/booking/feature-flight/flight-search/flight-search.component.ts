@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FlightService } from '../../api-boarding';
 import { Flight, FlightFilter } from '../../logic-flight';
@@ -20,11 +20,15 @@ import { FlightCardComponent, FlightFilterComponent } from '../../ui-flight';
 export class FlightSearchComponent {
   private flightService = inject(FlightService);
 
-  protected filter = {
+  protected filter = signal({
     from: 'London',
     to: 'San Francisco',
     urgent: false
-  };
+  });
+
+  protected flightRoute = computed(
+    () => 'From ' + this.filter().from + ' to ' + this.filter().to + '.'
+  );
 
   // protected flights: Flight[] = [];
 
@@ -37,15 +41,19 @@ export class FlightSearchComponent {
     5: true
   };
 
-  protected search(filter: FlightFilter): void {
-    this.filter = filter;
+  constructor() {
+    effect(() => console.log(this.flightRoute()));
+  }
 
-    if (!this.filter.from || !this.filter.to) {
+  protected search(filter: FlightFilter): void {
+    this.filter.set(filter);
+
+    if (!this.filter().from || !this.filter().to) {
       return;
     }
 
     this.flightService.find(
-      this.filter.from, this.filter.to, this.filter.urgent
+      this.filter().from, this.filter().to, this.filter().urgent
     ).subscribe();
   }
 

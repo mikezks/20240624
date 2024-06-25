@@ -6,7 +6,7 @@
   <div class="card-body">
 
     <app-flight-filter
-      [filter]="filter"
+      [filter]="filter()"
       (searchTrigger)="search($event)"
       >
       <div *ngIf="flights.length" class="flight-filter-info">
@@ -15,6 +15,8 @@
       <button *ngIf="flights.length" (click)="reset()"
         class="btn btn-default flight-filter-button"
       >Reset</button>
+
+      <p class="flight-filter-info">{{ flightRoute() }}</p>
     </app-flight-filter>
 
   </div>
