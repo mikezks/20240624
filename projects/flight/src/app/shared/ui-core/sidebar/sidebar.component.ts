@@ -1,6 +1,7 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { FlightService } from '../../../booking/api-boarding';
 
 
 @Component({
@@ -35,7 +36,14 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
         <li routerLinkActive="active">
           <a routerLink="booking">
             <i class="icon icon-booking"></i>
-            <p>Booking</p>
+            <p>
+              Booking
+              @if (flightCount$ | async; as count) {
+                <span class="badge badge-pill badge-info">
+                  {{ count }}
+                </span>
+              }
+            </p>
           </a>
         </li>
 
@@ -58,4 +66,6 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     </div>
   `
 })
-export class SidebarComponent {}
+export class SidebarComponent {
+  protected flightCount$ = inject(FlightService).flightsCount$;
+}

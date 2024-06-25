@@ -26,7 +26,11 @@ export class FlightSearchComponent {
     urgent: false
   };
 
-  protected flights: Flight[] = [];
+  // protected flights: Flight[] = [];
+
+  protected get flights() {
+    return this.flightService.flights;
+  }
 
   protected basket: Record<number, boolean> = {
     3: true,
@@ -42,9 +46,7 @@ export class FlightSearchComponent {
 
     this.flightService.find(
       this.filter.from, this.filter.to, this.filter.urgent
-    ).subscribe(
-      flights => this.flights = flights
-    );
+    ).subscribe();
   }
 
   protected delay(flight: Flight): void {
@@ -58,12 +60,12 @@ export class FlightSearchComponent {
       delayed: true
     };
 
-    this.flights = this.flights.map(
+    this.flightService.flights = this.flights.map(
       flight => flight.id === newFlight.id ? newFlight : flight
     );
   }
 
   protected reset(): void {
-    this.flights = [];
+    this.flightService.flights = [];
   }
 }
