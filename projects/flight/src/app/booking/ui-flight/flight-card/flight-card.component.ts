@@ -1,8 +1,9 @@
-import { DatePipe, NgStyle } from '@angular/common';
+import { DatePipe, NgStyle, UpperCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { injectCdBlink } from '../../../shared/util-cd-visualizer';
-import { Flight } from '../../logic-flight';
+import { Flight, initialFlight } from '../../logic-flight';
+import { CityPipe } from '../../../shared/util-transformation';
 
 
 @Component({
@@ -10,7 +11,8 @@ import { Flight } from '../../logic-flight';
   standalone: true,
   imports: [
     NgStyle, DatePipe,
-    RouterLink
+    RouterLink,
+    CityPipe, UpperCasePipe
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -19,12 +21,12 @@ import { Flight } from '../../logic-flight';
       [ngStyle]="{ 'background-color': selected ? 'rgb(204, 197, 185)' : 'white' }"
     >
       <div class="card-header">
-        <h2 class="card-title">{{ item?.from }} - {{ item?.to }}</h2>
+        <h2 class="card-title">{{ item.from | city | uppercase }} - {{ item.to | city:'short' }}</h2>
       </div>
 
       <div class="card-body">
-        <p>Flight-No.: #{{ item?.id }}</p>
-        <p>Flight-No.: #{{ item?.date | date : "dd.MM.yyyy HH:mm" }}</p>
+        <p>Flight-No.: #{{ item.id }}</p>
+        <p>Flight-No.: #{{ item.date | date : "dd.MM.yyyy HH:mm" }}</p>
         <p>
           <button
             (click)="toggleSelection()"
@@ -32,7 +34,7 @@ import { Flight } from '../../logic-flight';
             style="min-width: 85px; margin-right: 5px"
           >{{ selected ? "Remove" : "Select" }}</button>
           <a
-            [routerLink]="['../edit', item?.id]"
+            [routerLink]="['../edit', item.id]"
             class="btn btn-success btn-sm"
             style="min-width: 85px; margin-right: 5px"
           >Edit</a>
@@ -51,7 +53,7 @@ import { Flight } from '../../logic-flight';
 export class FlightCardComponent {
   blink = injectCdBlink();
 
-  @Input() item?: Flight;
+  @Input() item = initialFlight;
   @Input() selected = false;
   @Output() selectedChange = new EventEmitter<boolean>();
   @Output() delayTrigger = new EventEmitter<Flight>();
