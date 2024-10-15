@@ -1,8 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import { routerFeature } from '../../../shared/logic-router-state';
-import { initialFlight } from '../../logic-flight';
+import { BookingStore, initialFlight } from '../../logic-flight';
 
 
 @Component({
@@ -14,7 +13,7 @@ import { initialFlight } from '../../logic-flight';
   templateUrl: './flight-edit.component.html'
 })
 export class FlightEditComponent implements OnChanges {
-  private store = inject(Store);
+  private store = inject(BookingStore);
 
   @Input() flight = initialFlight;
 
@@ -25,12 +24,6 @@ export class FlightEditComponent implements OnChanges {
     date: [new Date().toISOString()],
     delayed: [false]
   });
-
-  constructor() {
-    this.store.select(routerFeature.selectRouteParams).subscribe(
-      params => console.log(params)
-    );
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['flight'].previousValue !== changes['flight'].currentValue) {
