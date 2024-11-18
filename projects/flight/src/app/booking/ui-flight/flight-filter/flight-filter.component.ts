@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, effect, inject, input, output } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FlightFilter } from '../../logic-flight';
 
@@ -11,11 +11,12 @@ import { FlightFilter } from '../../logic-flight';
   templateUrl: './flight-filter.component.html'
 })
 export class FlightFilterComponent {
-  @Input() set filter(filter: FlightFilter) {
-    this.inputFilterForm.setValue(filter);
-  }
+  filter = input.required<FlightFilter>()
+  filterChange = output<FlightFilter>();
 
-  @Output() filterChange = new EventEmitter<FlightFilter>();
+  constructor() {
+    effect(() => this.inputFilterForm.setValue(this.filter()))
+  }
 
   protected inputFilterForm = inject(FormBuilder).nonNullable.group({
     from: ['', [Validators.required]],
