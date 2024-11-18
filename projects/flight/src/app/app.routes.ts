@@ -21,6 +21,10 @@ export const APP_ROUTES: Routes = [
     loadChildren: () => import('./boarding')
   },
   {
+    path: 'checkin',
+    loadChildren: () => import('./checkin/checkin.routes')
+  },
+  {
     path: '**',
     redirectTo: 'home'
   }
