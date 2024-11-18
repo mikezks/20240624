@@ -4,20 +4,25 @@ import { FlightFilter } from "../model/flight-filter";
 import { Flight, initialFlight } from "../model/flight";
 import { computed, inject } from "@angular/core";
 
+type BookingState = {
+  filter: FlightFilter;
+  flights: Flight[];
+  basket: Record<number, boolean>;
+}
 
 export const BookingStore = signalStore(
   { providedIn: 'root' },
-  withState({
+  withState<BookingState>({
     filter: {
       from: 'Hamburg',
       to: 'Graz',
       urgent: false
-    } as FlightFilter,
-    flights: [] as Flight[],
+    },
+    flights: [],
     basket: {
       3: true,
       5: true
-    } as Record<number, boolean>
+    }
   }),
   withComputed(({ flights, basket }) => ({
     selectedFlights: computed(
@@ -27,44 +32,14 @@ export const BookingStore = signalStore(
       () => flights().filter(flight => flight.delayed)
     )
   })),
-  /* withComputed(store => {
-    const myStoreSelectors = {
-      selectedFlights: computed(
-        () => store.flights().filter(flight => store.basket()[flight.id])
-      ),
-    };
-
-    return myStoreSelectors;
-  }), */
-  /* withMethods(store => {
-    const flightService = inject(FlightService);
-
-    const myStoreMethods = {
-      updateFilter(from: string, to: string, urgent = false): void {
-        patchState(store, { filter: { from, to, urgent }});
-      },
-      load(): void {
-        flightService.find(store.filter.from(), store.filter.to(), store.filter.urgent())
-          .subscribe({
-            next: flights => patchState(store, { flights })
-          });
-      }
-    };
-
-    return myStoreMethods;
-  }), */
-  withMethods((
-    store,
-    flightService = inject(FlightService)
-  ) => ({
+  /**
+   * Updaters
+   */
+  withMethods(store => ({
     updateFilter: (from: string, to: string, urgent = false) =>
       patchState(store, { filter: { from, to, urgent }}),
-    load: () => {
-      flightService.find(store.filter.from(), store.filter.to(), store.filter.urgent())
-        .subscribe({
-          next: flights => patchState(store, { flights })
-        });
-    },
+    addFlights: (flights: Flight[]) => patchState(store, { flights }),
+    reset: () => patchState(store, { flights: [] }),
     delay: (id: number) => {
       const oldFlight = store.flights().find(flight => flight.id === id) || initialFlight;
       const oldDate = new Date(oldFlight.date);
@@ -79,7 +54,20 @@ export const BookingStore = signalStore(
       patchState(store, { flights: store.flights().map(
         flight => flight.id === newFlight.id ? newFlight : flight
       )});
+    }
+  })),
+  /**
+   * Side-Effects
+   */
+  withMethods((
+    store,
+    flightService = inject(FlightService)
+  ) => ({
+    load: () => {
+      flightService.find(store.filter.from(), store.filter.to(), store.filter.urgent())
+        .subscribe({
+          next: flights => store.addFlights(flights)
+        });
     },
-    reset: () => patchState(store, { flights: [] })
   }))
 );
