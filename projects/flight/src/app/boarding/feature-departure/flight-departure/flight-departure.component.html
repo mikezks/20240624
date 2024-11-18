@@ -15,23 +15,25 @@
   </div>
 </div>
 
-@if (flights$ | async; as flights) {
-  <div class="card">
-    <div class="card-body">
-      <table class="table table-condensed">
-        @for (f of flights; track f.id) {
-          <tr>
-            <td>
-              <span class="badge badge-pill badge-info">
-                {{ f.id }}
-              </span>
-            </td>
-            <td>{{ f.from }}</td>
-            <td>{{ f.to }}</td>
-            <td>{{ f.date | date : "dd.MM.yyyy HH:mm" }}</td>
-          </tr>
-        }
-      </table>
-    </div>
-</div>
+@if (flights(); as flightResult) {
+  @if (flightResult.length) {
+    <div class="card">
+      <div class="card-body">
+        <table class="table table-condensed">
+          @for (f of flightResult; track f.id) {
+            <tr>
+              <td>
+                <span class="badge badge-pill badge-info">
+                  {{ f.id }}
+                </span>
+              </td>
+              <td>{{ f.from }}</td>
+              <td>{{ f.to }}</td>
+              <td>{{ f.date | date : "dd.MM.yyyy HH:mm" }}</td>
+            </tr>
+          }
+        </table>
+      </div>
+  </div>
+  }
 }

@@ -1,7 +1,8 @@
-import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Observable, catchError, debounceTime, delay, distinctUntilChanged, filter, of, switchMap, tap } from 'rxjs';
+import { Observable, catchError, debounceTime, distinctUntilChanged, filter, of, switchMap, tap } from 'rxjs';
 import { Flight, FlightService } from '../../../booking/api-boarding';
 
 @Component({
@@ -9,7 +10,7 @@ import { Flight, FlightService } from '../../../booking/api-boarding';
   standalone: true,
   imports: [
     // CommonModule,
-    AsyncPipe, NgIf, DatePipe,
+    DatePipe,
     ReactiveFormsModule
   ],
   templateUrl: './flight-departure.component.html',
@@ -19,7 +20,9 @@ export class FlightDepartureComponent {
   private flightService = inject(FlightService);
 
   control = new FormControl('', { nonNullable: true });
-  flights$ = this.initFlightsStream();
+  flights = toSignal(this.initFlightsStream(), {
+    initialValue: []
+  });
   loading = false;
 
   private initFlightsStream(): Observable<Flight[]> {
