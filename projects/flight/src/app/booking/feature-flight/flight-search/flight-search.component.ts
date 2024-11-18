@@ -23,14 +23,12 @@ export class FlightSearchComponent {
   protected flights = this.store.flights;
   protected basket = this.store.basket;
 
-  protected search(filter: FlightFilter): void {
+  constructor() {
+    this.store.triggerLoadFlights(this.store.filter);
+  }
+
+  protected filterUpdate(filter: FlightFilter): void {
     this.store.updateFilter(filter.from, filter.to, filter.urgent);
-
-    if (!this.filter.from() || !this.filter.to()) {
-      return;
-    }
-
-    this.store.triggerLoadFlights(this.filter());
   }
 
   protected delay(flight: Flight): void {
