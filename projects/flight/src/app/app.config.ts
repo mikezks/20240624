@@ -1,10 +1,8 @@
 import { provideHttpClient } from '@angular/common/http';
 import { ApplicationConfig } from '@angular/core';
-import { provideRouter, withComponentInputBinding, withDebugTracing } from '@angular/router';
-import { provideEffects } from '@ngrx/effects';
-import { provideStore } from '@ngrx/store';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { APP_ROUTES } from './app.routes';
-import { provideRouterFeature } from './shared/logic-router-state';
+import { BookingStore } from './booking/logic-flight';
 
 export const appConfig: ApplicationConfig = {
   providers: [

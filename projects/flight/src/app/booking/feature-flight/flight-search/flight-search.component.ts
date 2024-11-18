@@ -14,7 +14,7 @@ import { FlightCardComponent, FlightFilterComponent } from '../../ui-flight';
     FlightFilterComponent
   ],
   selector: 'app-flight-search',
-  templateUrl: './flight-search.component.html',
+  templateUrl: './flight-search.component.html'
 })
 export class FlightSearchComponent {
   private store = inject(BookingStore);
@@ -30,7 +30,7 @@ export class FlightSearchComponent {
       return;
     }
 
-    this.store.load();
+    this.store.triggerLoadFlights(this.filter());
   }
 
   protected delay(flight: Flight): void {
