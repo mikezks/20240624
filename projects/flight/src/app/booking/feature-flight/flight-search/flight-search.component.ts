@@ -17,25 +17,9 @@ import { FlightCardComponent, FlightFilterComponent } from '../../ui-flight';
   templateUrl: './flight-search.component.html'
 })
 export class FlightSearchComponent {
-  private store = inject(BookingStore);
-
-  protected filter = this.store.filter;
-  protected flights = this.store.flights;
-  protected basket = this.store.basket;
+  protected store = inject(BookingStore);
 
   constructor() {
     this.store.triggerLoadFlights(this.store.filter);
-  }
-
-  protected filterUpdate(filter: FlightFilter): void {
-    this.store.updateFilter(filter.from, filter.to, filter.urgent);
-  }
-
-  protected delay(flight: Flight): void {
-    this.store.delay(flight.id);
-  }
-
-  protected reset(): void {
-    this.store.reset();
   }
 }
