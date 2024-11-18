@@ -17,10 +17,6 @@ export const APP_ROUTES: Routes = [
     loadChildren: () => import('./booking')
   },
   {
-    path: 'checkin',
-    loadChildren: () => import('./checkin')
-  },
-  {
     path: 'boarding',
     loadChildren: () => import('./boarding')
   },
