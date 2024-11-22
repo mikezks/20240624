@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
+import { injectUsername } from '@flight-workspace/config-lib';
 
 
 @Component({
   selector: 'app-home',
-  standalone: true,
-  imports: [],
   template: `
     <div class="card">
       <div class="card-header">
@@ -17,6 +16,8 @@ import { Component } from '@angular/core';
           <li>Signals</li>
           <li>Enterprise State Management</li>
         </ul>
+
+        <p>{{ username() }}</p>
       </div>
     </div>
   `,
@@ -27,4 +28,5 @@ import { Component } from '@angular/core';
   `]
 })
 export class HomeComponent {
+  username = injectUsername();
 }
