@@ -1,4 +1,3 @@
-import { AsyncPipe, NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
@@ -7,7 +6,6 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   selector: 'app-sidebar-cmp',
   standalone: true,
   imports: [
-    NgClass, AsyncPipe,
     RouterLink, RouterLinkActive,
   ],
   template: `
