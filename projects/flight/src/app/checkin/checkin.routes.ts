@@ -1,9 +1,15 @@
 import { Routes } from "@angular/router";
 import { PassengerSearchComponent } from "./feature-passenger/passenger-search/passenger-search.component";
+import { MilesComponent } from "./feature-miles";
+import { provideNavigationConfig } from "@flight-workspace/navigation";
+import { CHECKIN_NAVIGATION } from "./checkin.navigation";
 
 export const CHECKIN_ROUTES: Routes = [
   {
     path: '',
+    providers: [
+      provideNavigationConfig(CHECKIN_NAVIGATION)
+    ],
     children: [
       {
         path: '',
@@ -27,6 +33,10 @@ export const CHECKIN_ROUTES: Routes = [
             loadComponent: () => import('./feature-passenger/passenger-edit/passenger-edit.component')
           },
         ]
+      },
+      {
+        path: 'miles',
+        component: MilesComponent
       }
     ]
   }

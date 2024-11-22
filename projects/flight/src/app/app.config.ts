@@ -1,16 +1,16 @@
 import { provideHttpClient } from '@angular/common/http';
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
-import { provideEffects } from '@ngrx/effects';
-import { provideStore } from '@ngrx/store';
+import { provideNavigationService } from '@flight-workspace/navigation';
 import { APP_ROUTES } from './app.routes';
-import { provideRouterFeature } from './shared/logic-router-state';
+import { APP_NAVIGATION } from './app.navigation';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(APP_ROUTES,
       withComponentInputBinding()
     ),
-    provideHttpClient()
+    provideHttpClient(),
+    provideNavigationService(APP_NAVIGATION)
   ]
 };
