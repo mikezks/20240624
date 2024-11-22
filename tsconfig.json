@@ -10,6 +10,12 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@flight-workspace/navigation": [
+        "projects/navigation-lib/src/public-api.ts"
+      ]
+    },
     "esModuleInterop": true,
     "sourceMap": true,
     "declaration": false,
