@@ -7,7 +7,7 @@
 
     <app-flight-filter
       [filter]="store.filter()"
-      (searchTrigger)="store.updateFilter($event.from, $event.to, $event.urgent)"
+      (filterChange)="store.updateFilter($event.from, $event.to, $event.urgent)"
     >
       <div *ngIf="store.flights().length" class="flight-filter-info">
         {{ store.flights().length }} flights found!

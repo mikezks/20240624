@@ -1,5 +1,5 @@
 import { FlightService } from './../data-access/flight.service';
-import { patchState, signalStore, withComputed, withMethods, withState } from "@ngrx/signals";
+import { patchState, signalStore, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
 import { FlightFilter } from "../model/flight-filter";
 import { Flight, initialFlight } from "../model/flight";
@@ -76,5 +76,8 @@ export const BookingStore = signalStore(
       switchMap(filter => flightService.find(filter.from, filter.to, filter.urgent)),
       tap(flights => store.addFlights(flights))
     )),
-  }))
+  })),
+  withHooks({
+    onInit: store => store.triggerLoadFlights(store.filter)
+  })
 );

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { BookingStore, Flight, FlightFilter } from '../../logic-flight';
+import { BookingStore } from '../../logic-flight';
 import { FlightCardComponent, FlightFilterComponent } from '../../ui-flight';
 
 
@@ -18,8 +18,4 @@ import { FlightCardComponent, FlightFilterComponent } from '../../ui-flight';
 })
 export class FlightSearchComponent {
   protected store = inject(BookingStore);
-
-  constructor() {
-    this.store.triggerLoadFlights(this.store.filter);
-  }
 }
