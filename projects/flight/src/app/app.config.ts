@@ -1,6 +1,6 @@
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { ApplicationConfig } from '@angular/core';
-import { provideClientHydration, withEventReplay, withIncrementalHydration } from '@angular/platform-browser';
+import { provideClientHydration, withIncrementalHydration } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { provideConfigState } from '@flight-workspace/config-lib';
 import { APP_ROUTES } from './app.routes';
@@ -13,7 +13,6 @@ export const appConfig: ApplicationConfig = {
     ),
     provideConfigState('./config.state.json'),
     provideClientHydration(
-      withEventReplay(),
       withIncrementalHydration()
     )
   ]

@@ -67,7 +67,7 @@ export class FlightSearchComponent {
       flight => flight.id === newFlight.id ? newFlight : flight
     );
 
-    console.log('%cFlight Card DELAY Trigger ' + flight.id, '{ color: green; }')
+    console.log('%cFlight Card DELAY Trigger ' + flight.id, 'color: yellow;')
   }
 
   protected reset(): void {
