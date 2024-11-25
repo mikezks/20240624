@@ -1,4 +1,4 @@
-import { DatePipe, NgStyle } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { afterNextRender, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { injectCdBlink } from '../../../shared/util-cd-visualizer';
@@ -9,7 +9,7 @@ import { Flight } from '../../logic-flight';
   selector: 'app-flight-card',
   standalone: true,
   imports: [
-    NgStyle, DatePipe,
+    DatePipe,
     RouterLink
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
