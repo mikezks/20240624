@@ -1,5 +1,5 @@
 import { DatePipe, NgStyle } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { injectCdBlink } from '../../../shared/util-cd-visualizer';
 import { Flight } from '../../logic-flight';
@@ -14,10 +14,7 @@ import { Flight } from '../../logic-flight';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div
-      class="card"
-      [ngStyle]="{ 'background-color': selected ? 'rgb(204, 197, 185)' : 'white' }"
-    >
+    <div class="card ssr" [class.csr]="isCsrActive">
       <div class="card-header">
         <h2 class="card-title">{{ item?.from }} - {{ item?.to }}</h2>
       </div>
@@ -46,15 +43,38 @@ import { Flight } from '../../logic-flight';
     </div>
 
     <!-- {{ blink() }} -->
+  `,
+  styles: `
+    .ssr {
+      background-color: grey;
+    }
+
+    .csr {
+      background-color: white;
+    }
   `
 })
-export class FlightCardComponent {
+export class FlightCardComponent implements OnInit, OnDestroy {
   blink = injectCdBlink();
+  cdRef = inject(ChangeDetectorRef);
 
   @Input() item?: Flight;
   @Input() selected = false;
   @Output() selectedChange = new EventEmitter<boolean>();
   @Output() delayTrigger = new EventEmitter<Flight>();
+
+  isCsrActive = false;
+
+  constructor() {
+    afterNextRender(() => {
+      this.isCsrActive = true;
+      this.cdRef.markForCheck();
+    });
+  }
+
+  ngOnInit(): void {
+    console.log('%cFlight Card INIT ' + this.item?.id, '{ color: green; }')
+  }
 
   toggleSelection(): void {
     this.selected = !this.selected;
@@ -63,5 +83,9 @@ export class FlightCardComponent {
 
   delay(): void {
     this.delayTrigger.emit(this.item);
+  }
+
+  ngOnDestroy(): void {
+    console.log('%cFlight Card DESTROY ' + this.item?.id, '{ color: red; }')
   }
 }

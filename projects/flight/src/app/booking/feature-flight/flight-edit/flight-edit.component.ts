@@ -14,7 +14,7 @@ import { initialFlight } from '../../logic-flight';
   templateUrl: './flight-edit.component.html'
 })
 export class FlightEditComponent implements OnChanges {
-  private store = inject(Store);
+  // private store = inject(Store);
 
   @Input() flight = initialFlight;
 
@@ -27,9 +27,9 @@ export class FlightEditComponent implements OnChanges {
   });
 
   constructor() {
-    this.store.select(routerFeature.selectRouteParams).subscribe(
-      params => console.log(params)
-    );
+    // this.store.select(routerFeature.selectRouteParams).subscribe(
+    //   params => console.log(params)
+    // );
   }
 
   ngOnChanges(changes: SimpleChanges): void {

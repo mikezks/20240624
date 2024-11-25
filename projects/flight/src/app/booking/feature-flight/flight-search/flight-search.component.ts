@@ -34,6 +34,10 @@ export class FlightSearchComponent {
     5: true
   };
 
+  constructor() {
+    this.search(this.filter);
+  }
+
   protected search(filter: FlightFilter): void {
     this.filter = filter;
 
@@ -62,6 +66,8 @@ export class FlightSearchComponent {
     this.flights = this.flights.map(
       flight => flight.id === newFlight.id ? newFlight : flight
     );
+
+    console.log('%cFlight Card DELAY Trigger ' + flight.id, '{ color: green; }')
   }
 
   protected reset(): void {
