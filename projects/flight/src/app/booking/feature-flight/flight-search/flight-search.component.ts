@@ -3,7 +3,8 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FlightService } from '../../api-boarding';
 import { Flight, FlightFilter } from '../../logic-flight';
-import { FlightCardComponent, FlightFilterComponent } from '../../ui-flight';
+import { FlightFilterComponent } from '../../ui-flight';
+import { FlightCardComponent } from '../../ui-flight/flight-card/flight-card.component';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class FlightSearchComponent {
 
   protected filter = {
     from: 'London',
-    to: 'San Francisco',
+    to: 'New York',
     urgent: false
   };
 
