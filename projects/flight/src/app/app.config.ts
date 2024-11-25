@@ -1,16 +1,20 @@
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { ApplicationConfig } from '@angular/core';
+import { provideClientHydration, withEventReplay, withIncrementalHydration } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
-import { provideEffects } from '@ngrx/effects';
-import { provideStore } from '@ngrx/store';
-import { APP_ROUTES } from './app.routes';
-import { provideRouterFeature } from './shared/logic-router-state';
 import { provideConfigState } from '@flight-workspace/config-lib';
+import { APP_ROUTES } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(APP_ROUTES),
-    provideHttpClient(),
-    provideConfigState('./config.state.json')
+    provideHttpClient(
+      withFetch()
+    ),
+    provideConfigState('./config.state.json'),
+    provideClientHydration(
+      withEventReplay(),
+      withIncrementalHydration()
+    )
   ]
 };
