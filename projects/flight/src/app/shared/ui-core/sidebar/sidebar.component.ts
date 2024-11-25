@@ -22,6 +22,8 @@ import { NavigationComponent } from '@flight-workspace/navigation';
         </a>
       </div>
 
+      <ng-content />
+
       <app-navigation />
 
     </div>

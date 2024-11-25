@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderbarComponent, SidebarComponent } from './shared/ui-core';
+import { injectLoadingState } from './shared/ui-common/loading-state/loading.state';
+import { AsyncPipe } from '@angular/common';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
+    AsyncPipe,
     RouterOutlet,
     HeaderbarComponent,
     SidebarComponent
@@ -14,7 +17,9 @@ import { HeaderbarComponent, SidebarComponent } from './shared/ui-core';
   template: `
     <div class="wrapper">
       <div class="sidebar" data-color="white" data-active-color="danger">
-        <app-sidebar-cmp />
+        <app-sidebar-cmp>
+          <p>Loading: {{ loading$ | async }}</p>
+        </app-sidebar-cmp>
       </div>
 
       <div class="main-panel">
@@ -31,4 +36,5 @@ import { HeaderbarComponent, SidebarComponent } from './shared/ui-core';
   `
 })
 export class AppComponent {
+  loading$ = injectLoadingState();
 }

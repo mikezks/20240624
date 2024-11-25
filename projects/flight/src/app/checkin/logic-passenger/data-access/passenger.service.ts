@@ -41,7 +41,7 @@ export class PassengerService {
       .set('id', id);
 
     return this.http.get<Passenger>(url, { params }).pipe(
-      // delay(1_000)
+      delay(5_000)
     );
   }
 
