@@ -22,28 +22,6 @@ export class PassengerSearchComponent {
   selectedPassenger?: Passenger;
 
   search(): void {
-    /* const passengerState = {
-      entities: {
-        1: {
-          id: 1,
-          firstName: 'Peter',
-          name: '',
-          bonusMiles: 0,
-          passengerStatus: ''
-        },
-        5: {
-          id: 5,
-          firstName: 'Mary',
-          name: '',
-          bonusMiles: 0,
-          passengerStatus: ''
-        }
-      },
-      ids: [5, 1]
-    }; */
-
-    // passengerState.entities[1]
-
     if (!(this.firstname || this.lastname)) return;
 
     this.store.loadPassengers({

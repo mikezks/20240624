@@ -22,7 +22,7 @@ export class FlightSearchComponent {
 
   protected filter = {
     from: 'London',
-    to: 'San Francisco',
+    to: 'New York',
     urgent: false
   };
 

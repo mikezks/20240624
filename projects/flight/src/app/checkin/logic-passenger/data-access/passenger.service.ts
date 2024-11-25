@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { delay, Observable } from "rxjs";
 import { Passenger } from "../model/passenger";
 
 
@@ -40,7 +40,9 @@ export class PassengerService {
     const params = new HttpParams()
       .set('id', id);
 
-    return this.http.get<Passenger>(url, { params });
+    return this.http.get<Passenger>(url, { params }).pipe(
+      // delay(1_000)
+    );
   }
 
   save(passenger: Passenger): Observable<Passenger> {

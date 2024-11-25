@@ -3,6 +3,7 @@ import { PassengerSearchComponent } from "./feature-passenger/passenger-search/p
 import { MilesComponent } from "./feature-miles";
 import { provideNavigationConfig } from "@flight-workspace/navigation";
 import { CHECKIN_NAVIGATION } from "./checkin.navigation";
+import { passengerResolver } from "./logic-passenger/data-access/passenger.resolver";
 
 export const CHECKIN_ROUTES: Routes = [
   {
@@ -30,7 +31,10 @@ export const CHECKIN_ROUTES: Routes = [
           },
           {
             path: 'edit/:id',
-            loadComponent: () => import('./feature-passenger/passenger-edit/passenger-edit.component')
+            loadComponent: () => import('./feature-passenger/passenger-edit/passenger-edit.component'),
+            resolve: {
+              passenger: passengerResolver
+            }
           },
         ]
       },

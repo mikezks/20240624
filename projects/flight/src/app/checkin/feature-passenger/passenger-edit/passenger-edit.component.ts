@@ -3,8 +3,8 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { validatePassengerStatus } from '../../util-validation';
-import { initialPassenger, PassengerService } from '../../logic-passenger';
-import { switchMap } from 'rxjs';
+import { initialPassenger, Passenger, PassengerService } from '../../logic-passenger';
+import { delay, switchMap } from 'rxjs';
 
 
 @Component({
@@ -30,11 +30,7 @@ export class PassengerEditComponent {
   });
 
   id = input<number, string>(0, { transform: numberAttribute });
-  passenger = toSignal(
-    toObservable(this.id).pipe(
-      switchMap(id => this.passengerService.findById(id))
-    ), { initialValue: initialPassenger }
-  );
+  passenger = input.required<Passenger>();
 
   constructor() {
     effect(() => this.editForm.patchValue(this.passenger()));
