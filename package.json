@@ -3,11 +3,13 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve flight",
+    "start:shell": "ng serve app-shell",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:flight": "node dist/flight/server/server.mjs"
+    "serve:ssr:flight": "node dist/flight/server/server.mjs",
+    "serve:ssr:app-shell": "node dist/app-shell/server/server.mjs"
   },
   "private": true,
   "dependencies": {
