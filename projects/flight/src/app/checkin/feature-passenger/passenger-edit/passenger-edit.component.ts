@@ -30,10 +30,22 @@ export class PassengerEditComponent {
   });
 
   id = input<number, string>(0, { transform: numberAttribute });
-  passenger = input.required<Passenger>();
+  passengerResource = this.passengerService.findByIdAsResource(this.id);
 
   constructor() {
-    effect(() => this.editForm.patchValue(this.passenger()));
+    setTimeout(() => this.passengerResource.value.set({
+      ...initialPassenger,
+      firstName: 'Jane',
+      name: 'Doe'
+    }), 5_000);
+
+    effect(() => {
+      const passenger = this.passengerResource.value();
+
+      if (passenger) {
+        this.editForm.patchValue(passenger);
+      }
+    });
   }
 
   protected save(): void {

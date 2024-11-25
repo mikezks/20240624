@@ -32,9 +32,9 @@ export const CHECKIN_ROUTES: Routes = [
           {
             path: 'edit/:id',
             loadComponent: () => import('./feature-passenger/passenger-edit/passenger-edit.component'),
-            resolve: {
-              passenger: passengerResolver
-            }
+            // resolve: {
+            //   passenger: passengerResolver
+            // }
           },
         ]
       },

@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
+import { inject, Injectable, resource, ResourceRef, Signal } from "@angular/core";
 import { delay, Observable } from "rxjs";
 import { Passenger } from "../model/passenger";
+import { rxResource } from "@angular/core/rxjs-interop";
 
 
 @Injectable({
@@ -41,8 +42,25 @@ export class PassengerService {
       .set('id', id);
 
     return this.http.get<Passenger>(url, { params }).pipe(
-      delay(5_000)
+      // delay(5_000)
     );
+  }
+
+  findByIdAsResource(id: Signal<number>): ResourceRef<Passenger> {
+    return resource({
+      request: () => id(),
+      loader: ({ request: id, abortSignal }) => fetch(
+        [this.baseUrl, 'passenger', id].join('/'),
+        { signal: abortSignal }
+      ).then(res => res.json() as Promise<Passenger>)
+    });
+  }
+
+  findAsResource(filter: Signal<{ firstname: string, lastname: string }>): ResourceRef<Passenger[]> {
+    return rxResource({
+      request: filter,
+      loader: ({ request: filter }) => this.find(filter.firstname, filter.lastname)
+    });
   }
 
   save(passenger: Passenger): Observable<Passenger> {
